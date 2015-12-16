@@ -40,6 +40,7 @@ under the License.
   <div class="screenlet-body">
     <ul class="browsecategorylist">
       <#assign count_1=0/>
+      <#-- 在freemarkerTransforms.properties中定义limitedSubContent标签 -->
       <@limitedSubContent contentId=factoidRootId viewIndex=0 viewSize=9999 orderBy="contentName" limitSize="2">
         <li class="browsecategorytext">
           <@renderSubContentCache subContentId=subContentId/>

@@ -28,6 +28,7 @@ function unescapeHtmlText(text) {
 jQuery(window).load(createTree());
 
 <#-- creating the JSON Data -->
+<#-- requestAttributes 是ofbiz中Groovy的内置对象 -->
 var rawdata = [
   <#if (requestAttributes.topLevelList)?exists>
     <#assign topLevelList = requestAttributes.topLevelList>

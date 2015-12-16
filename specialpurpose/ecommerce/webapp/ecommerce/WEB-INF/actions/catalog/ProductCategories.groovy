@@ -36,6 +36,7 @@ List fillTree(rootCat ,CatLvl, parentCategoryId) {
         rootCat.sort{ it.productCategoryId }
         def listTree = FastList.newInstance();
         for(root in rootCat) {
+			//查询子目录
             preCatChilds = delegator.findByAnd("ProductCategoryRollup", ["parentProductCategoryId": root.productCategoryId], null, false);
             catChilds = EntityUtil.getRelated("CurrentProductCategory",null,preCatChilds,false);
             def childList = FastList.newInstance();
@@ -81,17 +82,18 @@ List fillTree(rootCat ,CatLvl, parentCategoryId) {
         return listTree;
     }
 }
-
+//查询目录下的分类，并将结果放入request中Attribute为topLevelList,而且不做递归
 CategoryWorker.getRelatedCategories(request, "topLevelList", CatalogWorker.getCatalogTopCategoryId(request, CatalogWorker.getCurrentCatalogId(request)), true);
 curCategoryId = parameters.category_id ?: parameters.CATEGORY_ID ?: "";
 request.setAttribute("curCategoryId", curCategoryId);
-CategoryWorker.setTrail(request, curCategoryId);
+CategoryWorker.setTrail(request, curCategoryId);//这段的作用还不知道
 
 categoryList = request.getAttribute("topLevelList");
 if (categoryList) {
     catContentWrappers = FastMap.newInstance();
     CategoryWorker.getCategoryContentWrappers(catContentWrappers, categoryList, request);
     context.catContentWrappers = catContentWrappers;
+	println catContentWrappers;
     completedTree = fillTree(categoryList,1,"");
     context.completedTree = completedTree;
 }
